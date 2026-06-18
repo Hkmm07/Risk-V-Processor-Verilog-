@@ -124,7 +124,47 @@ else
     $display("Fail! Result/Expected - Result:%0d/%0d - Zero:%0d/%0d - Neg:%0d/%0d - Carry:%0d/%0d - Overflow:%0d/%0d",
     result, e_result, zero, e_zero, neg, e_negative, carry, e_carry, overflow, e_overflow);
 
-    //
+    // OR Tests
+    // (1111000011110000.....) | (0000111100001111.....) = (11111111.....) (32'hFFFFFFFF is signed so negative flag)
+a = 32'hF0F0F0F0; b = 32'h0F0F0F0F; e_result = 32'hFFFFFFFF; e_zero = 0; e_negative = 1; e_carry = 0; e_overflow = 0;  sel = 3'b011; #10;
+if ((result == e_result) & (zero == e_zero) & (neg == e_negative) & (carry == e_carry) & (overflow == e_overflow))
+    $display("Pass");
+else
+    $display("Fail! Result/Expected - Result:%0d/%0d - Zero:%0d/%0d - Neg:%0d/%0d - Carry:%0d/%0d - Overflow:%0d/%0d",
+    result, e_result, zero, e_zero, neg, e_negative, carry, e_carry, overflow, e_overflow); 
+    
+    // 0 | 0 = 0
+a = 0; b = 0; e_result = 0; e_zero = 1; e_negative = 0; e_carry = 0; e_overflow = 0;  sel = 3'b011; #10;
+if ((result == e_result) & (zero == e_zero) & (neg == e_negative) & (carry == e_carry) & (overflow == e_overflow))
+    $display("Pass");
+else
+    $display("Fail! Result/Expected - Result:%0d/%0d - Zero:%0d/%0d - Neg:%0d/%0d - Carry:%0d/%0d - Overflow:%0d/%0d",
+    result, e_result, zero, e_zero, neg, e_negative, carry, e_carry, overflow, e_overflow);
+
+    // 0 | 1 = 1
+a = 0; b = 1; e_result = 1; e_zero = 0; e_negative = 0; e_carry = 0; e_overflow = 0;  sel = 3'b011; #10;
+if ((result == e_result) & (zero == e_zero) & (neg == e_negative) & (carry == e_carry) & (overflow == e_overflow))
+    $display("Pass");
+else
+    $display("Fail! Result/Expected - Result:%0d/%0d - Zero:%0d/%0d - Neg:%0d/%0d - Carry:%0d/%0d - Overflow:%0d/%0d",
+    result, e_result, zero, e_zero, neg, e_negative, carry, e_carry, overflow, e_overflow);
+    
+    // XOR Tests
+    // Identical binary values xored together cancel out
+a = 32'hACEFACED; b = 32'hACEFACED; e_result = 0; e_zero = 1; e_negative = 0; e_carry = 0; e_overflow = 0;  sel = 3'b100; #10;
+if ((result == e_result) & (zero == e_zero) & (neg == e_negative) & (carry == e_carry) & (overflow == e_overflow))
+    $display("Pass");
+else
+    $display("Fail! Result/Expected - Result:%0d/%0d - Zero:%0d/%0d - Neg:%0d/%0d - Carry:%0d/%0d - Overflow:%0d/%0d",
+    result, e_result, zero, e_zero, neg, e_negative, carry, e_carry, overflow, e_overflow);
+
+    // (11111111....) ^ 0 = (11111111....)
+a = 32'hFFFFFFFF; b = 0; e_result = 32'hFFFFFFFF; e_zero = 0; e_negative = 1; e_carry = 0; e_overflow = 0;  sel = 3'b100; #10;
+if ((result == e_result) & (zero == e_zero) & (neg == e_negative) & (carry == e_carry) & (overflow == e_overflow))
+    $display("Pass");
+else
+    $display("Fail! Result/Expected - Result:%0d/%0d - Zero:%0d/%0d - Neg:%0d/%0d - Carry:%0d/%0d - Overflow:%0d/%0d",
+    result, e_result, zero, e_zero, neg, e_negative, carry, e_carry, overflow, e_overflow);
 $finish;
 end
 endmodule
