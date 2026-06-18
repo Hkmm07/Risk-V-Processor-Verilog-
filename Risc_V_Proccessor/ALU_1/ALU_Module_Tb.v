@@ -100,15 +100,31 @@ else
 
 
     // And tests
-    // 010 & 110 = 010
-a = 32'b010; b = 32'b110; e_result = 32'b010; sel = 3'b010; #10;
+    // (1111000011110000.....) & (0000111100001111.....) = 0 (F in hexidecimal is 1111 in binary)
+a = 32'hF0F0F0F0; b = 32'h0F0F0F0F; e_result = 0; e_zero = 1; e_negative = 0; e_carry = 0; e_overflow = 0;  sel = 3'b010; #10;
 if ((result == e_result) & (zero == e_zero) & (neg == e_negative) & (carry == e_carry) & (overflow == e_overflow))
     $display("Pass");
 else
     $display("Fail! Result/Expected - Result:%0d/%0d - Zero:%0d/%0d - Neg:%0d/%0d - Carry:%0d/%0d - Overflow:%0d/%0d",
     result, e_result, zero, e_zero, neg, e_negative, carry, e_carry, overflow, e_overflow);
 
-    // 
+    // (11111111.....) & (11111111.....) = (11111111.....) (Negative flags as 32'hFFFFFFFF is -1 when its signed)
+a = 32'hFFFFFFFF; b = 32'hFFFFFFFF; e_result = 32'hFFFFFFFF; e_zero = 0; e_negative = 1; e_carry = 0; e_overflow = 0;  sel = 3'b010; #10;
+if ((result == e_result) & (zero == e_zero) & (neg == e_negative) & (carry == e_carry) & (overflow == e_overflow))
+    $display("Pass");
+else
+    $display("Fail! Result/Expected - Result:%0d/%0d - Zero:%0d/%0d - Neg:%0d/%0d - Carry:%0d/%0d - Overflow:%0d/%0d",
+    result, e_result, zero, e_zero, neg, e_negative, carry, e_carry, overflow, e_overflow);
+
+    // All hex letters that are & with 0 become 0, if they are & with F (1111) they stay the same (also quite proud of the "A BAD CAFE" idea) 
+a = 32'hABADCAFE; b = 32'hF000FFFF; e_result = 32'hA000CAFE; e_zero = 0; e_negative = 1; e_carry = 0; e_overflow = 0;  sel = 3'b010; #10;
+if ((result == e_result) & (zero == e_zero) & (neg == e_negative) & (carry == e_carry) & (overflow == e_overflow))
+    $display("Pass");
+else
+    $display("Fail! Result/Expected - Result:%0d/%0d - Zero:%0d/%0d - Neg:%0d/%0d - Carry:%0d/%0d - Overflow:%0d/%0d",
+    result, e_result, zero, e_zero, neg, e_negative, carry, e_carry, overflow, e_overflow);
+
+    //
 $finish;
 end
 endmodule
