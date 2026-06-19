@@ -207,7 +207,34 @@ if ((result == e_result) & (zero == e_zero) & (neg == e_negative) & (carry == e_
 else
     $display("Fail! Result/Expected - Result:%0d/%0d - Zero:%0d/%0d - Neg:%0d/%0d - Carry:%0d/%0d - Overflow:%0d/%0d",
     result, e_result, zero, e_zero, neg, e_negative, carry, e_carry, overflow, e_overflow);
+
+    // SLT Tests
+    // 3 SLT 5 = 1 (Is 3 less than 5 = Yes (1))
+a = 3; b = 5; e_result = 1; e_zero = 0; e_negative = 0; e_carry = 0; e_overflow = 0;  sel = 3'b110; #10;
+if ((result == e_result) & (zero == e_zero) & (neg == e_negative) & (carry == e_carry) & (overflow == e_overflow))
+    $display("Pass");
+else
+    $display("Fail! Result/Expected - Result:%0d/%0d - Zero:%0d/%0d - Neg:%0d/%0d - Carry:%0d/%0d - Overflow:%0d/%0d",
+    result, e_result, zero, e_zero, neg, e_negative, carry, e_carry, overflow, e_overflow);
+
+    // 5 SLT 5 = 0 (Is 5 less than 5 = No (0))
+a = 5; b = 5; e_result = 0; e_zero = 1; e_negative = 0; e_carry = 0; e_overflow = 0;  sel = 3'b110; #10;
+if ((result == e_result) & (zero == e_zero) & (neg == e_negative) & (carry == e_carry) & (overflow == e_overflow))
+    $display("Pass");
+else
+    $display("Fail! Result/Expected - Result:%0d/%0d - Zero:%0d/%0d - Neg:%0d/%0d - Carry:%0d/%0d - Overflow:%0d/%0d",
+    result, e_result, zero, e_zero, neg, e_negative, carry, e_carry, overflow, e_overflow);
+
+    // 32'hFFFFFFFF SLT 1 = 0 (Is -1 less than 1 = Yes (1)) Checks signed cases
+a = 32'hFFFFFFFF; b = 1; e_result = 1; e_zero = 0; e_negative = 0; e_carry = 0; e_overflow = 0;  sel = 3'b110; #10;
+if ((result == e_result) & (zero == e_zero) & (neg == e_negative) & (carry == e_carry) & (overflow == e_overflow))
+    $display("Pass");
+else
+    $display("Fail! Result/Expected - Result:%0d/%0d - Zero:%0d/%0d - Neg:%0d/%0d - Carry:%0d/%0d - Overflow:%0d/%0d",
+    result, e_result, zero, e_zero, neg, e_negative, carry, e_carry, overflow, e_overflow);
 $finish;
+
+
 end
 endmodule
 
