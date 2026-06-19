@@ -165,6 +165,48 @@ if ((result == e_result) & (zero == e_zero) & (neg == e_negative) & (carry == e_
 else
     $display("Fail! Result/Expected - Result:%0d/%0d - Zero:%0d/%0d - Neg:%0d/%0d - Carry:%0d/%0d - Overflow:%0d/%0d",
     result, e_result, zero, e_zero, neg, e_negative, carry, e_carry, overflow, e_overflow);
+
+    // SLL Tests (In these comments ^ means to the power)
+    // (Personal reminder SLL functions as a(2^b) not a^b)
+    // 1 << 4 = 16 ( 1(2^4)=16 )
+a = 1; b = 4; e_result = 16; e_zero = 0; e_negative = 0; e_carry = 0; e_overflow = 0;  sel = 3'b101; #10;
+if ((result == e_result) & (zero == e_zero) & (neg == e_negative) & (carry == e_carry) & (overflow == e_overflow))
+    $display("Pass");
+else
+    $display("Fail! Result/Expected - Result:%0d/%0d - Zero:%0d/%0d - Neg:%0d/%0d - Carry:%0d/%0d - Overflow:%0d/%0d",
+    result, e_result, zero, e_zero, neg, e_negative, carry, e_carry, overflow, e_overflow);
+    
+    // 1 << 0 = 1 ( 1(2^0)=1 )
+a = 1; b = 0; e_result = 1; e_zero = 0; e_negative = 0; e_carry = 0; e_overflow = 0;  sel = 3'b101; #10;
+if ((result == e_result) & (zero == e_zero) & (neg == e_negative) & (carry == e_carry) & (overflow == e_overflow))
+    $display("Pass");
+else
+    $display("Fail! Result/Expected - Result:%0d/%0d - Zero:%0d/%0d - Neg:%0d/%0d - Carry:%0d/%0d - Overflow:%0d/%0d",
+    result, e_result, zero, e_zero, neg, e_negative, carry, e_carry, overflow, e_overflow);
+
+    // 1 << 31 = 2147483648 ( 1(2^31)=2147483648 )
+a = 1; b = 31; e_result = 32'h80000000; e_zero = 0; e_negative = 1; e_carry = 0; e_overflow = 0;  sel = 3'b101; #10;
+if ((result == e_result) & (zero == e_zero) & (neg == e_negative) & (carry == e_carry) & (overflow == e_overflow))
+    $display("Pass");
+else
+    $display("Fail! Result/Expected - Result:%0d/%0d - Zero:%0d/%0d - Neg:%0d/%0d - Carry:%0d/%0d - Overflow:%0d/%0d",
+    result, e_result, zero, e_zero, neg, e_negative, carry, e_carry, overflow, e_overflow);
+
+    // 32'h80000000 << 1 = 0 (in this instance rather than going to the 33rd bit, it is limited to 32 bits, hence the 33rd bit "falls of the end")
+a = 32'h80000000; b = 1; e_result = 0; e_zero = 1; e_negative = 0; e_carry = 0; e_overflow = 0;  sel = 3'b101; #10;
+if ((result == e_result) & (zero == e_zero) & (neg == e_negative) & (carry == e_carry) & (overflow == e_overflow))
+    $display("Pass");
+else
+    $display("Fail! Result/Expected - Result:%0d/%0d - Zero:%0d/%0d - Neg:%0d/%0d - Carry:%0d/%0d - Overflow:%0d/%0d",
+    result, e_result, zero, e_zero, neg, e_negative, carry, e_carry, overflow, e_overflow);
+
+    // 1 << 64 = 1 ( 1(2^64)=1)
+a = 1; b = 64; e_result = 1; e_zero = 0; e_negative = 0; e_carry = 0; e_overflow = 0;  sel = 3'b101; #10;
+if ((result == e_result) & (zero == e_zero) & (neg == e_negative) & (carry == e_carry) & (overflow == e_overflow))
+    $display("Pass");
+else
+    $display("Fail! Result/Expected - Result:%0d/%0d - Zero:%0d/%0d - Neg:%0d/%0d - Carry:%0d/%0d - Overflow:%0d/%0d",
+    result, e_result, zero, e_zero, neg, e_negative, carry, e_carry, overflow, e_overflow);
 $finish;
 end
 endmodule
