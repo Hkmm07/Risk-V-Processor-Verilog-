@@ -9,12 +9,12 @@ module control_unit(
 );
 
 always@(*) begin
-    alu_immediate = 0;
-    branch = 0;
-    mem_read = 0;
+    alu_immediate = 0;          //Takes the immediate value instead of the x1 (ADDI x1, x2, 6) 6 is the immediate
+    branch = 0;                 //This and some other inputs decide changes in pc
+    mem_read = 0;               //Next 3 are self explanatory (hopefully i dont regret saying this lol)
     mem_write = 0;
     reg_write = 0;
-    jal = 0;
+    jal = 0;                    //Jump and save the return address
 
     case({opcode, funct3, funct7[5]})
     {7'b0110011, 3'b000, 0}: begin                          //ADD
@@ -73,3 +73,4 @@ always@(*) begin
     endcase
 
 end
+endmodule
