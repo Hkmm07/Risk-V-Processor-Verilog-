@@ -15,57 +15,58 @@ always@(*) begin
     mem_write = 0;
     reg_write = 0;
     jal = 0;                    //Jump and save the return address
+    sel = 3'b000;
 
     casez({opcode, funct3, funct7[5]})
-    {7'b0110011, 3'b000, 0}: begin                          //ADD
+    {7'b0110011, 3'b000, 1'b0}: begin                          //ADD
         sel = 3'b000;
         reg_write = 1;
     end
-    {7'b0110011, 3'b000, 1}: begin                          //SUB
+    {7'b0110011, 3'b000, 1'b1}: begin                          //SUB
         sel = 3'b001;
         reg_write = 1;
     end
-    {7'b0110011, 3'b111, ?}: begin                          //AND
+    {7'b0110011, 3'b111, 1'bz}: begin                          //AND
         sel = 3'b010;
         reg_write = 1;
     end
-    {7'b0110011, 3'b100, ?}: begin                          //XOR
+    {7'b0110011, 3'b100, 1'bz}: begin                          //XOR
         sel = 3'b011;
         reg_write = 1;
     end
-    {7'b0110011, 3'b110, ?}: begin                          //OR
+    {7'b0110011, 3'b110, 1'bz}: begin                          //OR
         sel = 3'b100;
         reg_write = 1;
     end
-    {7'b0110011, 3'b001, ?}: begin                          //SLL
+    {7'b0110011, 3'b001, 1'bz}: begin                          //SLL
         sel = 3'b101;
         reg_write = 1;
     end
-    {7'b0110011, 3'b010, ?}: begin                          //SLT
+    {7'b0110011, 3'b010, 1'bz}: begin                          //SLT
         sel = 3'b110;
         reg_write = 1;
     end
-    {7'b0010011, 3'b000, ?}: begin                          //ADDI
+    {7'b0010011, 3'b000, 1'bz}: begin                          //ADDI
         sel = 3'b000;
         reg_write = 1;
         alu_immediate = 1;
     end
-    {7'b0000011, 3'b010, ?}: begin                          //LW
+    {7'b0000011, 3'b010, 1'bz}: begin                          //LW
         sel = 3'b000;
         reg_write = 1;
         alu_immediate = 1;
         mem_read = 1;
     end
-    {7'b0100011, 3'b010, ?}: begin                          //SW
+    {7'b0100011, 3'b010, 1'bz}: begin                          //SW
         sel = 3'b000;
         alu_immediate = 1;
         mem_write = 1;
     end
-    {7'b1100011, 3'b000, ?}: begin                          //BEQ
+    {7'b1100011, 3'b000, 1'bz}: begin                          //BEQ
         sel = 3'b001;
         branch = 1;
     end
-    {7'b1101111, 3'b???, ?}: begin                          //JAL
+    {7'b1101111, 3'bzzz, 1'bz}: begin                          //JAL
         sel = 3'b000;
         reg_write = 1;
         jal = 1;
