@@ -11,14 +11,8 @@ module register_file(
 reg [31:0] reg_array [31:0];
 
 always@(*) begin
-    if ((rs1 & rs2) == 0) begin
-        read_data1 = 0;
-        read_data2 = 0;
-    end
-    else begin
-    read_data1 = reg_array[rs1];
-    read_data2 = reg_array[rs2];
-    end
+    read_data1 = (rs1 == 5'd0) ? 32'd0 : reg_array[rs1];
+    read_data2 = (rs2 == 5'd0) ? 32'd0 : reg_array[rs2];
 end
 
 always@(posedge clk) begin
