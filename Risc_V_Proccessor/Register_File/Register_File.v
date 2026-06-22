@@ -10,6 +10,12 @@ module register_file(
 
 reg [31:0] reg_array [31:0];
 
+integer i;
+initial begin
+    for (i = 0; i < 32; i = i + 1)
+        reg_array[i] = 32'd0;
+end
+
 always@(*) begin
     read_data1 = (rs1 == 5'd0) ? 32'd0 : reg_array[rs1];
     read_data2 = (rs2 == 5'd0) ? 32'd0 : reg_array[rs2];
